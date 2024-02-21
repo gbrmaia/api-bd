@@ -33,7 +33,12 @@ class DadosInput(BaseModel):
     endereco: str
     data_nascimento: str
     telefone: str
-# Restante do código...
+
+class DadosUpdate(BaseModel):
+    nome: str = None
+    endereco: str = None
+    data_nascimento: str = None
+    telefone: str = None
 
 # Função para adicionar valor ao banco de dados
 @app.post("/add_value/")
@@ -115,6 +120,27 @@ def listar_dados():
         })
 
     return {"dados": lista_dados}
+
+
+@app.put("/update_data/{telefone}")
+def update_data(telefone: str, dados_update: DadosUpdate):
+    db = SessionLocal()
+
+    # Procurar o número de telefone no banco de dados
+    db_dados = db.query(Dados).filter(Dados.telefone == telefone).first()
+
+    if not db_dados:
+        raise HTTPException(status_code=404, detail="Número de telefone não encontrado")
+
+    # Atualizar informações conforme necessário
+    for field, value in dados_update.dict(exclude_unset=True).items():
+        setattr(db_dados, field, value)
+
+    db.commit()
+    db.refresh(db_dados)
+
+    return {"message": f"Informações atualizadas com sucesso para {db_dados.nome}."}
+
 
 
 
