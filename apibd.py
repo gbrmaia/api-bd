@@ -75,7 +75,8 @@ def verificar_cadastro(telefone: str):
     resultado = db.query(Dados).filter(Dados.telefone == telefone).first()
 
     if resultado:
-        return {"confirmcadastro": "possuicadastro"}
+        dados_associados = {"nome": resultado.nome, "endereco": resultado.endereco, "data_nascimento": resultado.data_nascimento, "telefone": resultado.telefone}
+        return {"confirmcadastro": dados_associados}
     else:
         return {"confirmcadastro": "naopossuicadastro"}
 
