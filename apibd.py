@@ -82,9 +82,9 @@ def verificar_cadastro(telefone: str):
     if resultado:
         dados_associados = {"nome": resultado.nome, "endereco": resultado.endereco, "data_nascimento": resultado.data_nascimento, "telefone": resultado.telefone}
            return { "nome": resultado.nome, 
-                 "endereco": resultado.endereco, 
-                 "data_nascimento": resultado.data_nascimento, 
-                 "telefone": resultado.telefone }
+                    "endereco": resultado.endereco, 
+                    "data_nascimento": resultado.data_nascimento, 
+                    "telefone": resultado.telefone }
     else:
         return {"confirmcadastro": "naopossuicadastro"}
 
